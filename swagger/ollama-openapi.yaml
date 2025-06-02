@@ -4,6 +4,16 @@ info:
   version: "1.0.0"
   description: |
     Unofficial OpenAPI specification for the Ollama API, based on the official documentation.
+servers:
+  - url: http://{host}:{port}
+    description: Local development server
+    variables:
+      host:
+        default: 127.0.0.1
+        description: Hostname or IP address
+      port:
+        default: 11434
+        description: Port number
 paths:
   /api/generate:
     post:
