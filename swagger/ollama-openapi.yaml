@@ -4,8 +4,6 @@ info:
   version: "1.0.0"
   description: |
     Unofficial OpenAPI specification for the Ollama API, based on the official documentation.
-servers:
-  - url: http://ollama:11434
 paths:
   /api/generate:
     post:
