@@ -33,4 +33,5 @@ RUN echo 'server {\n\
 EXPOSE 11434 8080
 
 # Start both Ollama and Nginx
-CMD /bin/bash -c "ollama serve & nginx -g 'daemon off;'"
+ENTRYPOINT ["/bin/bash", "-c"]
+CMD ["ollama serve & nginx -g 'daemon off;'"]
