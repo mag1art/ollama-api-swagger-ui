@@ -17,7 +17,7 @@ RUN curl -L https://github.com/swagger-api/swagger-ui/archive/refs/heads/master.
     rm -rf swagger-ui.zip swagger-ui-master
 
 # Copy your OpenAPI specification
-COPY swagger/ollama-openapi.yaml /usr/share/nginx/html/swagger/ollama-openapi.yaml
+COPY ollama-openapi.yaml /usr/share/nginx/html/swagger/ollama-openapi.yaml
 
 # Configure Nginx
 RUN echo 'server {\n\
@@ -29,7 +29,7 @@ RUN echo 'server {\n\
     }\n\
 }' > /etc/nginx/sites-available/default
 
-RUN sed -i 's|https://petstore.swagger.io/v2/swagger.json|swagger/ollama-openapi.yaml|g' /usr/share/nginx/html/swagger/swagger-initializer.js
+RUN sed -i 's|https://petstore.swagger.io/v2/swagger.json|ollama-openapi.yaml|g' /usr/share/nginx/html/swagger/swagger-initializer.js
 
 # Expose ports
 EXPOSE 11434 8080
