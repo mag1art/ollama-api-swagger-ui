@@ -1,0 +1,258 @@
+openapi: 3.0.3
+info:
+  title: Ollama API
+  version: "1.0.0"
+  description: |
+    Unofficial OpenAPI specification for the Ollama API, based on the official documentation.
+servers:
+  - url: http://ollama:11434
+paths:
+  /api/generate:
+    post:
+      summary: Generate text using a model
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                model:
+                  type: string
+                  description: Name of the model to use
+                prompt:
+                  type: string
+                  description: Input prompt for text generation
+                system:
+                  type: string
+                  description: System prompt to guide the model's behaviour
+                template:
+                  type: string
+                  description: Template to structure the prompt
+                context:
+                  type: array
+                  items:
+                    type: integer
+                  description: Context for continuation
+                stream:
+                  type: boolean
+                  description: Enable streaming responses
+                options:
+                  type: object
+                  description: Additional model parameters
+              required:
+                - model
+                - prompt
+      responses:
+        '200':
+          description: Successful text generation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  response:
+                    type: string
+                  context:
+                    type: array
+                    items:
+                      type: integer
+                  done:
+                    type: boolean
+  /api/chat:
+    post:
+      summary: Engage in a chat with the model
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                model:
+                  type: string
+                  description: Name of the model to use
+                messages:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      role:
+                        type: string
+                        enum: [system, user, assistant]
+                      content:
+                        type: string
+                  description: Conversation history
+                stream:
+                  type: boolean
+                  description: Enable streaming responses
+                options:
+                  type: object
+                  description: Additional model parameters
+              required:
+                - model
+                - messages
+      responses:
+        '200':
+          description: Successful chat response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: object
+                    properties:
+                      role:
+                        type: string
+                      content:
+                        type: string
+  /api/embeddings:
+    post:
+      summary: Generate embeddings for input text
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                model:
+                  type: string
+                  description: Name of the model to use
+                prompt:
+                  type: string
+                  description: Input text for embeddings
+              required:
+                - model
+                - prompt
+      responses:
+        '200':
+          description: Successful embeddings generation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  embedding:
+                    type: array
+                    items:
+                      type: number
+  /api/pull:
+    post:
+      summary: Pull a model from a remote repository
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: Name of the model to pull
+              required:
+                - name
+      responses:
+        '200':
+          description: Model pulled successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+  /api/tags:
+    get:
+      summary: List locally available models
+      responses:
+        '200':
+          description: List of installed models
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  models:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          description: Model name
+                        model:
+                          type: string
+                          description: Full model identifier
+                        modified_at:
+                          type: string
+                          format: date-time
+                          description: Last modification timestamp
+                        size:
+                          type: integer
+                          description: Model size in bytes
+                        digest:
+                          type: string
+                          description: Model hash digest
+                        details:
+                          type: object
+                          description: Additional model details
+  /api/list:
+    get:
+      summary: List available models in the remote repository
+      responses:
+        '200':
+          description: List of available models
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  models:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                        size:
+                          type: string
+  /api/delete:
+    delete:
+      summary: Delete a locally installed model
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: Name of the model to delete
+              required:
+                - name
+      responses:
+        '200':
+          description: Model deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+  /api/version:
+    get:
+      summary: Retrieve the current version of Ollama
+      responses:
+        '200':
+          description: Current version information
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  version:
+                    type: string
