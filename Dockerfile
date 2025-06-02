@@ -29,7 +29,7 @@ RUN echo 'server {\n\
     }\n\
 }' > /etc/nginx/sites-available/default
 
-ENV SWAGGER_JSON=/usr/share/nginx/html/swagger/ollama-openapi.yaml
+RUN sed -i 's|https://petstore.swagger.io/v2/swagger.json|/swagger/ollama-openapi.yaml|g' /usr/share/nginx/html/swagger/index.html
 
 # Expose ports
 EXPOSE 11434 8080
