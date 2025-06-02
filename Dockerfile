@@ -29,7 +29,7 @@ RUN echo 'server {\n\
     }\n\
 }' > /etc/nginx/sites-available/default
 
-ENV SWAGGER_JSON=/swagger/ollama-openapi.yaml
+ENV SWAGGER_JSON=/usr/share/nginx/html/swagger/ollama-openapi.yaml
 
 # Expose ports
 EXPOSE 11434 8080
