@@ -17,7 +17,7 @@ RUN curl -L https://github.com/swagger-api/swagger-ui/archive/refs/heads/master.
     rm -rf swagger-ui.zip swagger-ui-master
 
 # Copy your OpenAPI specification
-COPY swagger/ollama-openapi.yaml /usr/share/nginx/html/ollama-openapi.yaml
+COPY swagger/ollama-openapi.yaml /usr/share/nginx/html/swagger/ollama-openapi.yaml
 
 # Configure Nginx
 RUN echo 'server {\n\
