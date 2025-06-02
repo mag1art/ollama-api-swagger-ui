@@ -31,23 +31,10 @@ paths:
                 prompt:
                   type: string
                   description: Input prompt for text generation
-                system:
-                  type: string
-                  description: System prompt to guide the model's behaviour
-                template:
-                  type: string
-                  description: Template to structure the prompt
-                context:
-                  type: array
-                  items:
-                    type: integer
-                  description: Context for continuation
                 stream:
                   type: boolean
                   description: Enable streaming responses
-                options:
-                  type: object
-                  description: Additional model parameters
+                  default: false
               required:
                 - model
                 - prompt
@@ -94,9 +81,7 @@ paths:
                 stream:
                   type: boolean
                   description: Enable streaming responses
-                options:
-                  type: object
-                  description: Additional model parameters
+                  default: false
               required:
                 - model
                 - messages
@@ -146,31 +131,6 @@ paths:
                     type: array
                     items:
                       type: number
-  /api/pull:
-    post:
-      summary: Pull a model from a remote repository
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                name:
-                  type: string
-                  description: Name of the model to pull
-              required:
-                - name
-      responses:
-        '200':
-          description: Model pulled successfully
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  status:
-                    type: string
   /api/tags:
     get:
       summary: List locally available models
@@ -206,26 +166,31 @@ paths:
                         details:
                           type: object
                           description: Additional model details
-  /api/list:
-    get:
-      summary: List available models in the remote repository
+  /api/pull:
+    post:
+      summary: Pull a model from a remote repository
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: Name of the model to pull
+              required:
+                - name
       responses:
         '200':
-          description: List of available models
+          description: Model pulled successfully
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  models:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        name:
-                          type: string
-                        size:
-                          type: string
+                  status:
+                    type: string
   /api/delete:
     delete:
       summary: Delete a locally installed model
